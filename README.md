@@ -1,4 +1,4 @@
-# Port Checker
+# Port Manager
 
 Ein einfacher Node.js-Helper, um freie Ports in einem definierten Bereich zu finden.
 
