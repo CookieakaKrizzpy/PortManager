@@ -88,3 +88,19 @@ node test.js
 
 MIT License. Frei zur Nutzung und Anpassung.
 
+## Installation auf neuem Server (Migration)
+
+1. **Abhängigkeiten installieren**
+   ```bash
+   npm install
+   ```
+   (im Ordner PortManager ausführen)
+
+2. **Verwendung**
+   - Siehe Beispiele oben.
+   - Die Datei `Portübersicht/` wird nicht mitübertragen (siehe .gitignore).
+
+3. **Logs & Fehler**
+   - Logdateien werden zentral im Manager verwaltet.
+   - Bei Problemen siehe auch die zentrale Datei `MIGRATION_INFO.txt` im Manager-Hauptverzeichnis.
+

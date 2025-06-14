@@ -1,4 +1,6 @@
 const net = require("net");
+const ManagerLoggerClient = require("../logger-client.js");
+const logger = new ManagerLoggerClient();
 
 /**
  * Prüft, ob ein bestimmter Port verfügbar ist.
@@ -74,24 +76,37 @@ const getAvailablePort = async (startPort = 4000, endPort = 4500, retries = 5, d
 
       const foundPort = results.find((result) => result.available);
       if (foundPort) {
+        logger.info(`Verfügbarer Port gefunden: ${foundPort.port}`, { 
+          port: foundPort.port, 
+          range: `${startPort}-${endPort}`,
+          attempt: attempt + 1 
+        });
         return foundPort.port;
       }
 
       if (attempt < retries - 1) {
-        console.warn(
-          `⚠️ Kein freier Port im Bereich ${startPort}-${endPort} gefunden. ` +
-          `Warte ${delay}ms und versuche erneut (${attempt + 1}/${retries})...`
-        );
+        const warningMsg = `⚠️ Kein freier Port im Bereich ${startPort}-${endPort} gefunden. ` +
+          `Warte ${delay}ms und versuche erneut (${attempt + 1}/${retries})...`;
+        logger.warn(warningMsg, { 
+          startPort, 
+          endPort, 
+          attempt: attempt + 1, 
+          retries, 
+          delay 
+        });
+        console.warn(warningMsg);
         await new Promise((resolve) => setTimeout(resolve, delay));
       }
     } catch (error) {
-      throw new Error(`Fehler bei der Portsuche: ${error.message}`);
+      const errorMsg = `Fehler bei der Portsuche: ${error.message}`;
+      logger.error(errorMsg, error, { startPort, endPort, attempt: attempt + 1 });
+      throw new Error(errorMsg);
     }
   }
 
-  throw new Error(
-    `❌ Kein verfügbarer Port im Bereich ${startPort}-${endPort} nach ${retries} Versuchen.`
-  );
+  const finalErrorMsg = `❌ Kein verfügbarer Port im Bereich ${startPort}-${endPort} nach ${retries} Versuchen.`;
+  logger.error(finalErrorMsg, null, { startPort, endPort, retries });
+  throw new Error(finalErrorMsg);
 };
 
 module.exports = getAvailablePort;
