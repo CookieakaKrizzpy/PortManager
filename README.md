@@ -22,7 +22,7 @@ npm install
 ### 1️⃣ Port auf Verfügbarkeit prüfen
 
 ```javascript
-const isPortAvailable = require('./portChecker');
+const isPortAvailable = require('./getAvailablePort');
 
 (async () => {
   const port = 8080;
@@ -34,7 +34,7 @@ const isPortAvailable = require('./portChecker');
 ### 2️⃣ Ersten verfügbaren Port im Bereich finden
 
 ```javascript
-const getAvailablePort = require('./portChecker');
+const getAvailablePort = require('./getAvailablePort');
 
 (async () => {
   try {

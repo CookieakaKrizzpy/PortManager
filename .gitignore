@@ -1,2 +1,10 @@
 # Ignoriere den Portübersicht-Ordner
-Portübersicht/ 
+Portübersicht/
+
+# Node
+node_modules/
+.env
+*.log
+
+# System
+.DS_Store 
